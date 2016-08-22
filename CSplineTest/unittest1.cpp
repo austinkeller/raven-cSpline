@@ -36,26 +36,26 @@ namespace CSplineTest
 			x.push_back(11.5739);
 			x.push_back(12.07);
 			x.push_back(12.566);
-			y.push_back(-5.89868e-005);
-			y.push_back(0.233061);
-			y.push_back(0.216427);
-			y.push_back(0.0486148);
-			y.push_back(-0.133157);
-			y.push_back(-0.172031);
-			y.push_back(-0.0456079);
-			y.push_back(0.0906686);
-			y.push_back(0.116462);
-			y.push_back(0.0557287);
-			y.push_back(-0.03875);
-			y.push_back(-0.10346);
-			y.push_back(-0.0734111);
-			y.push_back(0.0298435);
-			y.push_back(0.094886);
-			y.push_back(0.0588743);
-			y.push_back(-0.0171021);
-			y.push_back(-0.0630512);
-			y.push_back(-0.0601684);
-			y.push_back(-0.00994154);
+			y.push_back(-0.0000589868465782519);
+			y.push_back(0.14463484548733077);
+			y.push_back(0.19446333430646837);
+			y.push_back(0.071842906721276842);
+			y.push_back(-0.12053092959435169);
+			y.push_back(-0.17673049248020398);
+			y.push_back(-0.050647231032090206);
+			y.push_back(0.091041384836209341);
+			y.push_back(0.11811218795866396);
+			y.push_back(0.056011414090931771);
+			y.push_back(-0.039200200662229685);
+			y.push_back(-0.10365370318116232);
+			y.push_back(-0.073325998546899918);
+			y.push_back(0.029887475008922595);
+			y.push_back(0.094896084461076571);
+			y.push_back(0.058997921877052412);
+			y.push_back(-0.01705592142914425);
+			y.push_back(-0.063504217774696767);
+			y.push_back(-0.060630871127830416);
+			y.push_back(-0.0088098615595968918);
 
 			vector<double> xIn;
 			vector<double> yIn;
@@ -75,10 +75,29 @@ namespace CSplineTest
 			step = (3 * PI) / (N_out - 1);
 			for (int i = 0; i < N_out; ++i, xx += step)
 			{
-				double interpolatedX = interpolator.getY(xx);
-				double diff = abs(interpolatedX - y[i]);
-				Assert::IsTrue(diff < 1.0);
+				double interpolatedY = interpolator.getY(xx);
+				double diff = abs(interpolatedY - y[i]);
+				Assert::IsTrue(diff < 1e-5);
 			}
+		}
+
+		TEST_METHOD(CubicHermiteSplineTest2)
+		{
+			// Test extrapolation
+			vector<double> x;
+			vector<double> y;
+			x.push_back(0.0635025624);
+			x.push_back(0.1808948136);
+			x.push_back(0.304432644533);
+			y.push_back(0.0);
+			y.push_back(13047.732421875);
+			y.push_back(0.0);
+
+			cSpline interpolator(x, y);
+
+			double interpolatedY = interpolator.getY(0.006111831467);
+			double diff = abs(interpolatedY - -8685.1482789803285);
+			Assert::IsTrue(diff < 1e-5);
 		}
 	};
 }
